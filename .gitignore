@@ -2,6 +2,7 @@
 a.out
 a.out.*
 data.*
+main.*
 aa.*
 data
 main
