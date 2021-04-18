@@ -52,6 +52,20 @@ void search_node(t_list *list, char *s)
       list->cur = list->cur->next;
   }
 }
+
+void free_node(t_list **list)
+{
+  t_node *tmp;
+
+  (*list)->cur = (*list)->head;
+  while ((*list)->cur)
+  {
+    tmp = (*list)->cur->next;
+    free((*list)->cur);
+    (*list)->cur = tmp;
+  }
+  free(*list);
+}
 /*
 int main()
 {

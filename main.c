@@ -1,57 +1,77 @@
-#include <stdio.h>
-#include <fcntl.h>
-#include "gnl/get_next_line.h"
 #include "minirt.h"
-#include <string.h>
 
+/*
 static void put_err()
 {
   write(1, "Error\n", 6);
 }
+*/
+static void set_R(char **split, t_list **list, t_rt_info *data)
+{
+	char	**tmp;
 
-int main(int argc, char *argv[]) {
-  char *line;
-  char **split;
-  t_list *list;
-  t_rt_info data;
-  init_list(&list);
+	tmp = split;
+	data->id = "R";
+	tmp++;
+	data->resolution.width = ft_atoi(*tmp);
+	tmp++;
+	data->resolution.height = ft_atoi(*tmp);
+	add_node(*list, *data);
+}
 
+static void check_var(char ***split, t_list **list, t_rt_info *data)
+{
+	int		k;
+	char	**tmp;
 
-  if (argc == 2 && strcmp(argv[1] + strlen(argv[1]) - 3,".rt") == 0)
-  {
-    int fd = open(argv[1],O_RDWR);
-    get_next_line(fd, &line);
-    //A R
-    //해상도 예외처리 --> 0보다는 무조건 커야한다 (width, height)
-    //각각 요소들의 필수 (R 1920 1080) --> split  하면 3덩어리 나온다..
-    // 방법 1 
-    // 처음에 split으로 잘라서 str 개수를 카운팅
-    // split한 결과를 또 split
-    split = ft_split(line, ' ');
-    int k;
-    char **tmp = split;
-    while (*tmp++)
-      k++;
-    if (**split == 'R')
-    {
+	k = 0;
+	tmp = *split;
+	while (*tmp++)
+		k++;
+	if (***split == 'R' && k == 3)
+		set_R(*split, list, data);
+	/*
+	else if(**split == '')
+	else if(**split == '')
+	else if(**split == '')
+	else if(**split == '')
+	*/
+}
 
-        data.id = "R";
-        split++;
-        data.resolution.width = ft_atoi(*split);
-        split++;
-        data.resolution.height = ft_atoi(*split);
-        add_node(list, data);
-    }
-    printf("%s %d %d",list->head->data.id, list->head->data.resolution.width, list->head->data.resolution.height);
-    //
-    
+int main()
+//int main(int argc, char *argv[])
+{
+	char		*line;
+	char		**split;
+	t_list		*list;
+	t_rt_info	data;
+	int			k;
 
-    close(fd);
-    free(line);
-  }
-  else
-    put_err();
-  return 0;
+	init_list(&list);
+//	if (argc == 2 && strcmp(argv[1] + strlen(argv[1]) - 3,".rt") == 0)
+//	{
+//		int fd = open(argv[1],O_RDWR);
+	int fd = open("mini.rt",O_RDWR);
+
+	while(get_next_line(fd, &line) && *line != 0)
+	{
+		split = ft_split(line, ' ');
+		check_var(&split, &list, &data);
+		k = 0;
+		while(*(split + k) != 0)
+			free(*(split + k++));
+		free(split);
+		free(line);
+	}
+	printf("%s %d %d",list->head->data.id, list->head->data.resolution.width, list->head->data.resolution.height);
+	close(fd);
+	//free(line);
+	free_node(&list);
+//	}
+//	else
+//	put_err();
+	while(1);
+	return 0;
 }
 
 

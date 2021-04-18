@@ -1,0 +1,28 @@
+Mmain	main.c	/^int main(int argc, char *argv[])$/
+add_node	data.c	/^void  add_node(t_list *list, t_rt_info data)$/
+allo_free	split.c	/^static char	**allo_free(char **rst)$/
+check_var	main.c	/^static void check_var(char **split, t_list **list,/
+cnt_letter	split.c	/^static int	cnt_letter(char const *s, char c)$/
+cnt_word	split.c	/^static int	cnt_word(char const *s, char c)$/
+fill_rst	split.c	/^static char	**fill_rst(char **rst, char const *s, /
+ft_atoi	atoi.c	/^int	ft_atoi(const char *str)$/
+ft_split	split.c	/^char		**ft_split(char const *s, char c)$/
+ft_strchr	gnl/get_next_line_utils.c	/^char	*ft_strchr(const char *s, int c)$/
+ft_strcmp	data.c	/^int	ft_strcmp(const char *s1, const char *s2)$/
+ft_strdup	gnl/get_next_line_utils.c	/^char	*ft_strdup(const char *s1)$/
+ft_strjoin	gnl/get_next_line_utils.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/
+ft_strlcpy	split.c	/^size_t	ft_strlcpy(char *dst, const char *src, size/
+ft_strlen	gnl/get_next_line_utils.c	/^size_t	ft_strlen(const char *s)$/
+get_next_line	gnl/get_next_line.c	/^int	get_next_line(int fd, char **line)$/
+init_list	data.c	/^void  init_list(t_list **list)$/
+put_err	main.c	/^static void put_err()$/
+rd_end	gnl/get_next_line.c	/^int	rd_end(int read_len, char **line, char **bkup)/
+search_node	data.c	/^void search_node(t_list *list, char *s)$/
+set_R	main.c	/^static void set_R(char **split, t_list **list, t_r/
+split_line	gnl/get_next_line.c	/^int	split_line(char **line, char **bkup, char *bku/
+t_color	minirt.h	/^}               t_color;$/
+t_list	minirt.h	/^}               t_list;$/
+t_node	minirt.h	/^}               t_node;$/
+t_resolution	minirt.h	/^}               t_resolution;$/
+t_rt_info	minirt.h	/^}               t_rt_info;$/
+t_xyz	minirt.h	/^}               t_xyz;$/
