@@ -64,7 +64,7 @@ void search_node(t_list *list, char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 static int	cnt_word(char const *s, char c);
 static int	cnt_letter(char const *s, char c);
-static char	**allo_free(char **rst);
+char	**allo_free(char **rst);
 static char	**fill_rst(char **rst, char const *s, char c);
 char		**ft_split(char const *s, char c);
 #endif

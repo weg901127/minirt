@@ -72,7 +72,7 @@ static int	cnt_letter(char const *s, char c)
 	return (0);
 }
 
-static char	**allo_free(char **rst)
+char	**allo_free(char **rst)
 {
 	int	i;
 
