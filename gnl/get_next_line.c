@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeonhyun <jeonhyun@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 12:03:43 by jeonhyun          #+#    #+#             */
-/*   Updated: 2021/02/14 16:59:37 by jeonhyun         ###   ########.fr       */
+/*   Updated: 2021/04/19 21:24:33 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	rd_end(int read_len, char **line, char **bkup)
 	}
 	if (!(*line = ft_strdup("")))
 		return (-1);
-	return (0);
+	return (-1);
 }
 
 int	get_next_line(int fd, char **line)

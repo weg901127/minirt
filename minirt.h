@@ -3,7 +3,8 @@
 # include <string.h>  //test
 # include <stdio.h>   //test
 # include <fcntl.h>
-# include <stdlib.h>
+//# include <stdlib.h>
+//# include <unistd.h>
 # include "gnl/get_next_line.h"
 
 typedef struct  s_resolution
@@ -28,7 +29,7 @@ typedef struct  s_color
 
 typedef struct  s_rt_info
 {
-  char          *id;
+  char          id;
   t_resolution  resolution;
   t_xyz         coor1;
   t_xyz         coor2;
