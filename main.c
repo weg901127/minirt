@@ -8,6 +8,59 @@ static void put_err()
 {
   write(1, "Error\n", 6);
 }
+void	split_free(char ***rst)
+{
+  
+	while (**rst != 0)
+	{
+		free(**rst);
+    *rst++;
+	}
+	free(*rst);
+}
+
+t_color add_color(char **split, t_color color)
+{
+  char **tmp_color;
+  tmp_color = ft_split(*split, ',');
+  color.red = atoi(*tmp_color);
+  tmp_color++;
+  color.green = atoi(*tmp_color);
+  tmp_color++;
+  color.blue = atoi(*tmp_color);
+  
+  //split_free(&tmp_color);
+  
+  int	i;
+	i = 0;
+	while (tmp_color[i] != 0)
+	{
+		free(tmp_color[i]);
+		i++;
+	}
+  
+  return (color);
+}
+t_xyz add_coordinate(char **split, t_xyz coor)
+{
+  char **coordinate;
+  coordinate = ft_split(*split, ',');
+  coor.x = atof(*coordinate);
+  coordinate++;  
+  coor.y = atof(*coordinate);
+  coordinate++;  
+  coor.z = atof(*coordinate);
+  //split_free(&coordinate);
+  
+  int	i;
+	i = 0;
+	while (coordinate[i] != 0)
+	{
+		free(coordinate[i]);
+		i++;
+	}
+  return (coor);
+}
 
 int add_r(char **split, t_rt_info data, t_list *list)
 {
@@ -23,230 +76,113 @@ int add_r(char **split, t_rt_info data, t_list *list)
 }
 int add_a(char **split, t_rt_info data, t_list *list)
 {
-  char **tmp;
   data.id = "A";
   split++;
   data.brightness = atof(*split);
   split++;
-  tmp = ft_split(*split, ',');
-  data.color.red = atoi(*tmp);
-  tmp++;
-  data.color.green = atoi(*tmp);
-  tmp++;
-  data.color.blue = atoi(*tmp);
-  //tmp = allo_free(tmp);
+  data.color = add_color(split, data.color);
   add_node(list, data);
   return (1);
 }
 
 int add_c(char **split, t_rt_info data, t_list *list)
 {
-  char **coordinate;
   char **normal_vector;
   data.id = "c";
   split++;
-  coordinate = ft_split(*split, ',');
-  data.coor1.x = atoi(*coordinate);
-  coordinate++;  
-  data.coor1.y = atoi(*coordinate);
-  coordinate++;  
-  data.coor1.z = atoi(*coordinate);
+  data.coor1 = add_coordinate(split, data.coor1);
   split++;
-  normal_vector = ft_split(*split, ',');
-  data.normalized_vector.x = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.y = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.z = atof(*normal_vector);
+  data.normalized_vector = add_coordinate(split, data.normalized_vector);
   split++;
   data.view_degree = atoi(*split);
-  //allo_free(coordinate);
-  //allo_free(normal_vector);
   add_node(list, data);
   return (1);
 }
 
 int add_l(char **split, t_rt_info data, t_list *list)
 {
-  char **coordinate;
-  char **color;
   data.id = "l";
   split++;
-  coordinate = ft_split(*split, ',');
-  data.coor1.x = atof(*coordinate);
-  coordinate++;
-  data.coor1.y = atof(*coordinate);
-  coordinate++;
-  data.coor1.z = atof(*coordinate);
+  data.coor1 = add_coordinate(split, data.coor1);
   split++;
   data.brightness = atof(*split);
   split++;
-  color = ft_split(*split, ',');
-  data.color.red = atoi(*color);
-  color++;
-  data.color.green = atoi(*color);
-  color++;
-  data.color.blue = atoi(*color);
-  //color = allo_free(color);
+  data.color = add_color(split, data.color);
   add_node(list, data);
   return (1);
 }
 
 int add_sp(char **split, t_rt_info data, t_list *list)
 {
-  char **coordinate;
-  char **color;
-
   data.id = "sp";
   split++;
-  coordinate = ft_split(*split, ',');
-  data.coor1.x = atof(*coordinate);
-  coordinate++;
-  data.coor1.y = atof(*coordinate);
-  coordinate++;
-  data.coor1.z = atof(*coordinate);
+  data.coor1 = add_coordinate(split, data.coor1);
   split++;
   data.diameter = atof(*split);
   split++;
-  color = ft_split(*split, ',');
-  data.color.red = atoi(*color);
-  color++;
-  data.color.green = atoi(*color);
-  color++;
-  data.color.blue = atoi(*color);
+  data.color = add_color(split, data.color);
   add_node(list, data);
   return (1);
 }
 int add_pl(char **split, t_rt_info data, t_list *list)
 {
-  char **coordinate;
-  char **color;
-  char **normal_vector;
-
   data.id = "pl";
   split++;
-  coordinate = ft_split(*split, ',');
-  data.coor1.x = atof(*coordinate);
-  coordinate++;
-  data.coor1.y = atof(*coordinate);
-  coordinate++;
-  data.coor1.z = atof(*coordinate);
+  data.coor1 = add_coordinate(split, data.coor1);
   split++;
-  normal_vector = ft_split(*split, ',');
-  data.normalized_vector.x = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.y = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.z = atof(*normal_vector);
+  data.normalized_vector = add_coordinate(split, data.normalized_vector);
   split++;
-  color = ft_split(*split, ',');
-  data.color.red = atoi(*color);
-  color++;
-  data.color.green = atoi(*color);
-  color++;
-  data.color.blue = atoi(*color);
+  data.color = add_color(split, data.color);
+  
   add_node(list, data);
   return (1);
 }
 
 int add_sq(char **split, t_rt_info data, t_list *list)
 {
-  char **coordinate;
-  char **normal_vector;
-  char **color;
-
   data.id = "sq";
   split++;
-  coordinate = ft_split(*split, ',');
-  data.coor1.x = atof(*coordinate);
-  coordinate++;
-  data.coor1.y = atof(*coordinate);
-  coordinate++;
-  data.coor1.z = atof(*coordinate);
+  data.coor1 = add_coordinate(split, data.coor1);
   split++;
-  normal_vector = ft_split(*split, ',');
-  data.normalized_vector.x = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.y = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.z = atof(*normal_vector);
+  data.normalized_vector = add_coordinate(split, data.normalized_vector);
   split++;
   data.side_size = atof(*split);
   split++;
-  color = ft_split(*split, ',');
-  data.color.red = atoi(*color);
-  color++;
-  data.color.green = atoi(*color);
-  color++;
-  data.color.blue = atoi(*color);
+  data.color = add_color(split, data.color);
+  
   add_node(list, data);
   return (1);
 }
 int add_cy(char **split, t_rt_info data, t_list *list)
 {
-  char **coordinate;
-  char **normal_vector;
-  char **color;
-
   data.id = "cy";
   split++;
-  coordinate = ft_split(*split, ',');
-  data.coor1.x = atof(*coordinate);
-  coordinate++;
-  data.coor1.y = atof(*coordinate);
-  coordinate++;
-  data.coor1.z = atof(*coordinate);
+  data.coor1 = add_coordinate(split, data.coor1);
   split++;
-  normal_vector = ft_split(*split, ',');
-  data.normalized_vector.x = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.y = atof(*normal_vector);
-  normal_vector++;
-  data.normalized_vector.z = atof(*normal_vector);
+  data.normalized_vector = add_coordinate(split, data.normalized_vector);
   split++;
   data.diameter = atof(*split);
   split++;
   data.side_size = atof(*split);
   split++;
-  color = ft_split(*split, ',');
-  data.color.red = atoi(*color);
-  color++;
-  data.color.green = atoi(*color);
-  color++;
-  data.color.blue = atoi(*color);
+  data.color = add_color(split, data.color);
+  
   add_node(list, data);
   return (1);
 }
 int add_tr(char **split, t_rt_info data, t_list *list)
 {
-  char **coordinate1;
-  char **coordinate2;
-  char **coordinate3;  
-  char **color;
-
   data.id = "tr";
   split++;
-  coordinate1 = ft_split(*split, ',');
-  data.coor1.x = atof(*coordinate1);
-  coordinate1++;
-  data.coor1.y = atof(*coordinate1);
-  coordinate1++;
-  data.coor1.z = atof(*coordinate1);
+  data.coor1 = add_coordinate(split, data.coor1);
   split++;
-  coordinate2 = ft_split(*split, ',');
-  data.coor2.x = atof(*coordinate2);
-  coordinate2++;
-  data.coor2.y = atof(*coordinate2);
-  coordinate2++;
-  data.coor2.z = atof(*coordinate2);
+  data.coor2 = add_coordinate(split, data.coor2);
   split++;
-  coordinate3 = ft_split(*split, ',');
-  data.coor3.x = atof(*coordinate3);
-  coordinate3++;
-  data.coor3.y = atof(*coordinate3);
-  coordinate3++;
-  data.coor3.z = atof(*coordinate3);
+  data.coor3 = add_coordinate(split, data.coor3);
   split++;
+  data.color = add_color(split, data.color);
+  add_node(list, data);
+  return (1);
 }
 
 int split_put_data(char **split, t_rt_info data, t_list *list)
@@ -282,56 +218,31 @@ int main(int argc, char *argv[]) {
 
   init_list(&list);
 
-
   if (argc == 2 && strcmp(argv[1] + strlen(argv[1]) - 3,".rt") == 0)
   {
     int fd = open(argv[1],O_RDWR);
     while (get_next_line(fd, &line) != 0)
     {
-      if (strcmp(line, "") == 0)
-        *split = "";
-      else
-        split = ft_split(line, ' ');
-      if (split_put_data(split, data, list) == 0)
+      if (*line != '\0')
       {
-        put_err();
-        break;
+        if (strcmp(line, "") == 0)
+          *split = "";
+        else
+          split = ft_split(line, ' ');
+        if (split_put_data(split, data, list) == 0)
+        {
+          put_err();
+          break;
+        }
+        printf("%s\n",list->tail->data.id);
+        split = allo_free(split);
+        free(line);
       }
-      printf("%s\n",list->tail->data.id);
-      //split = allo_free(split);
-      free(line);
-      
     }
-    
-    //
+    //del_node(list);
     close(fd);
     }
   else
     put_err();
   return 0;
 }
-
-
-//R, A는 필수(1개)
-//c, cy 구분
-//필요한 요소만 정확히 들어왔는지(슬데없는 값이 추가로 있지 않은지)
-//값 범위 유효성검사
-
-
-//단방향
-//초기화
-//삽입, 탐색
-/*
-
-char *id
-s_xyz coordinates1
-s_xyz coordinates2
-s_xyz coordinates3
-s_xyz 3d normalized orientation vector.(-1 ~ 1)
-s_color color
-un int view_degree (0 ~ 180)
-un float brightness
-un float diameter
-un float side_size
-
-*/

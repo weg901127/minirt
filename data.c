@@ -52,6 +52,17 @@ void search_node(t_list *list, char *s)
       list->cur = list->cur->next;
   }
 }
+
+void del_node(t_list *list)
+{
+  while (list->cur != 0)
+  {
+    free(list->cur);
+    list->cur = list->cur->next;
+  }
+  free(list);
+}
+
 /*
 int main()
 {

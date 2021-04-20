@@ -60,6 +60,7 @@ void  init_list(t_list **list);
 void  add_node(t_list *list, t_rt_info data);
 int	ft_strcmp(const char *s1, const char *s2);
 void search_node(t_list *list, char *s);
+void del_node(t_list *list);
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 static int	cnt_word(char const *s, char c);
