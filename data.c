@@ -1,19 +1,41 @@
 #include "minirt.h"
 
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*pb;
+	unsigned char	pc;
+
+	pb = b;
+	pc = c;
+	while (len-- > 0)
+		*pb++ = pc;
+	return (b);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void *rest;
+
+	if (!(rest = (void *)malloc(count * size)))
+		return (NULL);
+	ft_memset(rest, 0, (count * size));
+	return (rest);
+}
+
 void  init_list(t_list **list)
 {
-  *list = (t_list *)malloc(sizeof(t_list));
+  *list = (t_list *)ft_calloc(1, sizeof(t_list));
   (*list)->cur = NULL;
   (*list)->head = NULL;
   (*list)->tail = NULL;
 }
 
-void  add_node(t_list *list, t_rt_info data)
+void  add_node(t_list *list, t_rt_info *data)
 {
   t_node  *new_node;
 
-  new_node = (t_node *)malloc(sizeof(t_node));
-  new_node->data = data;
+  new_node = (t_node *)ft_calloc(1, sizeof(t_node));
+  new_node->data = *data;
   new_node->next = NULL;
   if (list->head == NULL && list->tail == NULL)
   {

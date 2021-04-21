@@ -1,9 +1,14 @@
 #include "minirt.h"
+#define ERROR 1
+#define DONE 0
 
-
-static void put_err()
+int put_err(char **line, int fd, t_list **list)
 {
-  write(1, "Error\n", 6);
+	write(1, "Error\n", 6);
+	free(*line);
+	close(fd);
+	free_node(list);
+  return (ERROR);
 }
 
 static void	free_split(char ***split)
@@ -13,77 +18,117 @@ static void	free_split(char ***split)
 	k = 0;
 	while(*(*split + k) != 0)
 		free(*(*split + k++));
-	free(*split);
+	free (*split);
 }
 
-void set_coor1(char ***split, t_rt_info *data, int seq)
+int	count_split(char **split)
+{
+	int k;
+
+	k = 0;
+	while (*split++)
+		k++;
+	return (k);
+}
+
+int count_char(char **split, char c)
+{
+	int		k;
+	char	*tmp;
+
+	k = 0;
+	tmp = *split;
+	while (*tmp++)
+	{
+		if (*tmp == c)
+			k++;
+	}
+	return (k);
+}
+
+int set_coor1(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 	char		**tmp2;
 
 	tmp = *split;
 	tmp += seq;
+	if (count_char(tmp, ',') != 2)
+		return (ERROR);
 	tmp2 = ft_split(*tmp, ',');
-	data->coor1.x = ft_atoi(*tmp2);
-	data->coor1.y = ft_atoi(*(tmp2 + 1));
-	data->coor1.z = ft_atoi(*(tmp2 + 2));
+	data->coor1.x = atof(*tmp2);
+	data->coor1.y = atof(*(tmp2 + 1));
+	data->coor1.z = atof(*(tmp2 + 2));
 	free_split(&tmp2);
+	return (DONE);
 }
 
-void set_coor2(char ***split, t_rt_info *data, int seq)
+int set_coor2(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 	char		**tmp2;
 
 	tmp = *split;
 	tmp += seq;
+	if (count_char(tmp, ',') != 2)
+		return (ERROR);
 	tmp2 = ft_split(*tmp, ',');
-	data->coor2.x = ft_atoi(*tmp2);
-	data->coor2.y = ft_atoi(*(tmp2 + 1));
-	data->coor2.z = ft_atoi(*(tmp2 + 2));
+	data->coor2.x = atof(*tmp2);
+	data->coor2.y = atof(*(tmp2 + 1));
+	data->coor2.z = atof(*(tmp2 + 2));
 	free_split(&tmp2);
+	return (DONE);
 }
 
-void set_coor3(char ***split, t_rt_info *data, int seq)
+int set_coor3(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 	char		**tmp2;
 
 	tmp = *split;
 	tmp += seq;
+	if (count_char(tmp, ',') != 2)
+		return (ERROR);
 	tmp2 = ft_split(*tmp, ',');
-	data->coor3.x = ft_atoi(*tmp2);
-	data->coor3.y = ft_atoi(*(tmp2 + 1));
-	data->coor3.z = ft_atoi(*(tmp2 + 2));
+	data->coor3.x = atof(*tmp2);
+	data->coor3.y = atof(*(tmp2 + 1));
+	data->coor3.z = atof(*(tmp2 + 2));
 	free_split(&tmp2);
+	return (DONE);
 }
 
-void set_vector(char ***split, t_rt_info *data, int seq)
+int set_vector(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 	char		**tmp2;
 
 	tmp = *split;
 	tmp += seq;
+	if (count_char(tmp, ',') != 2)
+		return (ERROR);
 	tmp2 = ft_split(*tmp, ',');
-	data->normalized_vector.x = ft_atoi(*tmp2);
-	data->normalized_vector.y = ft_atoi(*(tmp2 + 1));
-	data->normalized_vector.z = ft_atoi(*(tmp2 + 2));
+	data->normalized_vector.x = atof(*tmp2);
+	data->normalized_vector.y = atof(*(tmp2 + 1));
+	data->normalized_vector.z = atof(*(tmp2 + 2));
 	free_split(&tmp2);
+	return (DONE);
 }
 
-void set_color(char ***split, t_rt_info *data, int seq)
+int set_color(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 	char		**tmp2;
 
 	tmp = *split;
 	tmp += seq;
+	if (count_char(tmp, ',') != 2)
+		return (ERROR);
 	tmp2 = ft_split(*tmp, ',');
-	data->color.red = ft_atoi(*tmp2);
-	data->color.green = ft_atoi(*(tmp2 + 1));
-	data->color.blue = ft_atoi(*(tmp2 + 2));
+	data->color.red = atof(*tmp2);
+	data->color.green = atof(*(tmp2 + 1));
+	data->color.blue = atof(*(tmp2 + 2));
 	free_split(&tmp2);
+	return (DONE);
 }
 
 void set_view_degree(char ***split, t_rt_info *data, int seq)
@@ -101,7 +146,7 @@ void set_brightness(char ***split, t_rt_info *data, int seq)
 
 	tmp = *split;
 	tmp += seq;
-	data->brightness = ft_atoi(*tmp);
+	data->brightness = atof(*tmp);
 }
 
 void set_side_size(char ***split, t_rt_info *data, int seq)
@@ -110,7 +155,7 @@ void set_side_size(char ***split, t_rt_info *data, int seq)
 
 	tmp = *split;
 	tmp += seq;
-	data->side_size = ft_atoi(*tmp);
+	data->side_size = atof(*tmp);
 }
 
 void set_diameter(char ***split, t_rt_info *data, int seq)
@@ -119,7 +164,7 @@ void set_diameter(char ***split, t_rt_info *data, int seq)
 
 	tmp = *split;
 	tmp += seq;
-	data->diameter = ft_atoi(*tmp);
+	data->diameter = atof(*tmp);
 }
 
 void set_width_height(char ***split, t_rt_info *data, int seq)
@@ -130,147 +175,178 @@ void set_width_height(char ***split, t_rt_info *data, int seq)
 	tmp += seq;
 	data->resolution.width = ft_atoi(*tmp);
 	tmp++;
-	data->resolution.width = ft_atoi(*tmp);
+	data->resolution.height = ft_atoi(*tmp);
 }
 
-static void set_resolution(char **split, t_list **list)
+int set_resolution(char **split, t_list **list)
 {
 	t_rt_info	data;
 
-	data.id = 'R';
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "R";
 	set_width_height(&split, &data, 1);
-	add_node(*list, data);
+	add_node(*list, &data);
+	return (DONE);
 }
 
-static void set_ambient(char **split, t_list **list)
+int set_ambient(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 'A';
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "A";
 	set_brightness(&split, &data, 1);
-	set_color(&split, &data, 2);
-	add_node(*list, data);
+	res |= set_color(&split, &data, 2);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void set_camera(char **split, t_list **list)
+int set_camera(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 'C';
-	set_coor1(&split, &data, 1);
-	set_vector(&split, &data, 2);
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "c";
+	res |= set_coor1(&split, &data, 1);
+	res |= set_vector(&split, &data, 2);
 	set_view_degree(&split, &data, 3);
-	add_node(*list, data);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void set_light(char **split, t_list **list)
+int set_light(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 'l';
-	set_coor1(&split, &data, 1);
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "l";
+	res |= set_coor1(&split, &data, 1);
 	set_brightness(&split, &data, 2);
-	set_color(&split, &data, 3);
-	add_node(*list, data);
+	res |= set_color(&split, &data, 3);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void set_sphere(char **split, t_list **list)
+int set_sphere(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 's';
-	set_coor1(&split, &data, 1);
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "sp";
+	res |= set_coor1(&split, &data, 1);
 	set_diameter(&split, &data, 2);
-	set_color(&split, &data, 3);
-	add_node(*list, data);
+	res |= set_color(&split, &data, 3);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void set_plane(char **split, t_list **list)
+int set_plane(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 'p';
-	set_coor1(&split, &data, 1);
-	set_vector(&split, &data, 2);
-	set_color(&split, &data, 3);
-	add_node(*list, data);
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "pl";
+	res |= set_coor1(&split, &data, 1);
+	res |= set_vector(&split, &data, 2);
+	res |= set_color(&split, &data, 3);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void set_square(char **split, t_list **list)
+int set_square(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 'q';
-	set_coor1(&split, &data, 1);
-	set_vector(&split, &data, 2);
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "sq";
+	res |= set_coor1(&split, &data, 1);
+	res |= set_vector(&split, &data, 2);
 	set_side_size(&split, &data, 3);
-	set_color(&split, &data, 4);
-	add_node(*list, data);
+	res |= set_color(&split, &data, 4);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void set_cylinder(char **split, t_list **list)
+int set_cylinder(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 'y';
-	set_coor1(&split, &data, 1);
-	set_vector(&split, &data, 2);
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "cy";
+	res |= set_coor1(&split, &data, 1);
+	res |= set_vector(&split, &data, 2);
 	set_diameter(&split, &data, 3);
 	set_side_size(&split, &data, 4);
-	set_color(&split, &data, 5);
-	add_node(*list, data);
+	res |= set_color(&split, &data, 5);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void set_triangle(char **split, t_list **list)
+int set_triangle(char **split, t_list **list)
 {
 	t_rt_info	data;
+	int			res;
 
-	data.id = 't';
-	set_coor1(&split, &data, 1);
-	set_coor2(&split, &data, 2);
-	set_coor3(&split, &data, 3);
-	set_color(&split, &data, 4);
-	add_node(*list, data);
+	res = DONE;
+	ft_memset(&data, 0, sizeof(t_rt_info));
+	data.id = "tr";
+	res |= set_coor1(&split, &data, 1);
+	res |= set_coor2(&split, &data, 2);
+	res |= set_coor3(&split, &data, 3);
+	res |= set_color(&split, &data, 4);
+	add_node(*list, &data);
+	return (res);
 }
 
-static void check_var(char ***split, t_list **list)
+int check_var(char ***split, t_list **list)
 {
 	int		k;
 	char	**tmp;
 
-	k = 0;
-	tmp = *split;
-	while (*tmp++)
-		k++;
+	k = count_split(*split);
 	if (***split == 'R' && k == 3)
-		set_resolution(*split, list);
+		return (set_resolution(*split, list));
 	else if(***split == 'A' && k == 3)
-		set_ambient(*split, list);
+		return (set_ambient(*split, list));
 	else if(***split == 'c' && k == 4)
-		set_camera(*split, list);
+		return (set_camera(*split, list));
 	else if(***split == 'l' && k == 4)
-		set_light(*split, list);
+		return (set_light(*split, list));
 	else if(***split == 's' && k == 4)
-		set_sphere(*split, list);
+		return (set_sphere(*split, list));
 	else if(***split == 'p' && k == 4)
-		set_plane(*split, list);
+		return (set_plane(*split, list));
 	else if(***split == 's' && k == 5)
-		set_square(*split, list);
+		return (set_square(*split, list));
 	else if(***split == 'c' && k == 6)
-		set_cylinder(*split, list);
+		return (set_cylinder(*split, list));
 	else if(***split == 't' && k == 5)
-		set_triangle(*split, list);
+		return (set_triangle(*split, list));
 	else
-		put_err();
+		return (ERROR);
 }
 
 int main()
 //int main(int argc, char *argv[])
 {
+	int			res;
 	char		*line;
 	char		**split;
 	t_list		*list;
-	t_rt_info	data;
 
 	init_list(&list);
 //	if (argc == 2 && strcmp(argv[1] + strlen(argv[1]) - 3,".rt") == 0)
@@ -283,15 +359,39 @@ int main()
 		if (*line != 0)
 		{
 			split = ft_split(line, ' ');
-			check_var(&split, &list);
+			res = check_var(&split, &list);
 			free_split(&split);
+			if (res)
+				return (put_err(&line, fd, &list));	
 		}
-		free(line);
+			free(line);
 	}
+	free(line);
 	list->cur = list->head;
 	while (list->cur)
 	{
-		printf("%c",list->cur->data.id);
+		printf("id : %s",list->cur->data.id);
+		if (list->cur->data.resolution.width + list->cur->data.resolution.height)
+			printf("\nresolution.width : %d, %d",list->cur->data.resolution.width,list->cur->data.resolution.height);
+		if (list->cur->data.coor1.x + list->cur->data.coor1.y + list->cur->data.coor1.z)
+			printf("\ncoor1.xyz : %f, %f, %f",list->cur->data.coor1.x,list->cur->data.coor1.y,list->cur->data.coor1.z);
+		if (list->cur->data.coor2.x + list->cur->data.coor2.y + list->cur->data.coor2.z)
+			printf("\ncoor2.xyz : %f, %f, %f",list->cur->data.coor2.x,list->cur->data.coor2.y,list->cur->data.coor2.z);
+		if (list->cur->data.coor3.x + list->cur->data.coor3.y + list->cur->data.coor3.z)
+			printf("\ncoor3.xyz : %f, %f, %f",list->cur->data.coor3.x,list->cur->data.coor3.y,list->cur->data.coor3.z);
+		if (list->cur->data.normalized_vector.x + list->cur->data.normalized_vector.y + list->cur->data.normalized_vector.z)
+			printf("\nvec.xyz : %f, %f, %f",list->cur->data.normalized_vector.x,list->cur->data.normalized_vector.y,list->cur->data.normalized_vector.z);
+		if (list->cur->data.color.red + list->cur->data.color.green + list->cur->data.color.blue)
+			printf("\ncolor.rgb : %f, %f, %f",list->cur->data.color.red,list->cur->data.color.green,list->cur->data.color.blue);
+		if (list->cur->data.view_degree)
+			printf("\nview_degree : %d",list->cur->data.view_degree);
+		if (list->cur->data.brightness)
+			printf("\nbrightness : %f",list->cur->data.brightness);
+		if (list->cur->data.diameter)
+			printf("\ndiameter : %f",list->cur->data.diameter);
+		if (list->cur->data.side_size)
+			printf("\nside_size : %f",list->cur->data.side_size);
+		printf("\n--------------------------\n");
 		list->cur = list->cur->next;
 	}
 	close(fd);

@@ -29,7 +29,7 @@ typedef struct  s_color
 
 typedef struct  s_rt_info
 {
-  char          id;
+  char          *id;
   t_resolution  resolution;
   t_xyz         coor1;
   t_xyz         coor2;
@@ -58,11 +58,12 @@ typedef struct  s_list
 int	ft_atoi(const char *str);
 
 void  init_list(t_list **list);
-void  add_node(t_list *list, t_rt_info data);
+void  add_node(t_list *list, t_rt_info *data);
 int	ft_strcmp(const char *s1, const char *s2);
 void search_node(t_list *list, char *s);
 void free_node(t_list **list);
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void	*ft_memset(void *b, int c, size_t len);
 char		**ft_split(char const *s, char c);
 #endif
