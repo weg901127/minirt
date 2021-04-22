@@ -2,13 +2,13 @@
 #define ERROR 1
 #define DONE 0
 
-int put_err(char **line, int fd, t_list **list)
+int	put_err(char **line, int fd, t_list **list)
 {
 	write(1, "Error\n", 6);
 	free(*line);
 	close(fd);
 	free_node(list);
-  return (ERROR);
+	return (ERROR);
 }
 
 static void	free_split(char ***split)
@@ -16,9 +16,9 @@ static void	free_split(char ***split)
 	int k;
 
 	k = 0;
-	while(*(*split + k) != 0)
+	while (*(*split + k) != 0)
 		free(*(*split + k++));
-	free (*split);
+	free(*split);
 }
 
 int	count_split(char **split)
