@@ -1,6 +1,8 @@
 #include "minirt.h"
 #define ERROR 1
 #define DONE 0
+#define R_FLAG 1
+#define A_FLAG 2
 
 int	put_err(char **line, int fd, t_list **list)
 {
@@ -111,6 +113,13 @@ int set_vector(char ***split, t_rt_info *data, int seq)
 	data->normalized_vector.y = atof(*(tmp2 + 1));
 	data->normalized_vector.z = atof(*(tmp2 + 2));
 	free_split(&tmp2);
+	if (data->normalized_vector.x < -1\
+	|| data->normalized_vector.x > 1\
+	|| data->normalized_vector.y < -1\
+	|| data->normalized_vector.y > 1\
+	|| data->normalized_vector.z < -1\
+	|| data->normalized_vector.z > 1)
+		return (ERROR);
 	return (DONE);
 }
 
@@ -128,25 +137,38 @@ int set_color(char ***split, t_rt_info *data, int seq)
 	data->color.green = atof(*(tmp2 + 1));
 	data->color.blue = atof(*(tmp2 + 2));
 	free_split(&tmp2);
+	if (data->color.red < 0 \
+	|| data->color.red > 255\
+	|| data->color.green < 0\
+	|| data->color.green > 255\
+	|| data->color.blue < 0\
+	|| data->color.blue > 255)
+		return (ERROR);
 	return (DONE);
 }
 
-void set_view_degree(char ***split, t_rt_info *data, int seq)
+int set_view_degree(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 
 	tmp = *split;
 	tmp += seq;
 	data->view_degree = ft_atoi(*tmp);
+	if (data->view_degree < 0 || data->view_degree > 180)
+		return (ERROR);
+	return (DONE);
 }
 
-void set_brightness(char ***split, t_rt_info *data, int seq)
+int set_brightness(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 
 	tmp = *split;
 	tmp += seq;
 	data->brightness = atof(*tmp);
+	if (data->brightness < 0 || data->brightness > 1)
+		return (ERROR);
+	return (DONE);
 }
 
 void set_side_size(char ***split, t_rt_info *data, int seq)
@@ -167,7 +189,7 @@ void set_diameter(char ***split, t_rt_info *data, int seq)
 	data->diameter = atof(*tmp);
 }
 
-void set_width_height(char ***split, t_rt_info *data, int seq)
+int set_width_height(char ***split, t_rt_info *data, int seq)
 {
 	char		**tmp;
 
@@ -176,12 +198,16 @@ void set_width_height(char ***split, t_rt_info *data, int seq)
 	data->resolution.width = ft_atoi(*tmp);
 	tmp++;
 	data->resolution.height = ft_atoi(*tmp);
+	if (data->resolution.width <= 0 || data->resolution.height <= 0)
+		return (ERROR);
+	return (DONE);
 }
 
-int set_resolution(char **split, t_list **list)
+int set_resolution(char **split, t_list **list, int *capital)
 {
 	t_rt_info	data;
 
+	*capital += R_FLAG;
 	ft_memset(&data, 0, sizeof(t_rt_info));
 	data.id = "R";
 	set_width_height(&split, &data, 1);
@@ -189,11 +215,12 @@ int set_resolution(char **split, t_list **list)
 	return (DONE);
 }
 
-int set_ambient(char **split, t_list **list)
+int set_ambient(char **split, t_list **list, int *capital)
 {
 	t_rt_info	data;
 	int			res;
 
+	*capital += A_FLAG;
 	res = DONE;
 	ft_memset(&data, 0, sizeof(t_rt_info));
 	data.id = "A";
@@ -314,14 +341,14 @@ int set_triangle(char **split, t_list **list)
 
 int check_var(char ***split, t_list **list)
 {
-	int		k;
-	char	**tmp;
+	int			k;
+	static int	capital;
 
 	k = count_split(*split);
-	if (***split == 'R' && k == 3)
-		return (set_resolution(*split, list));
-	else if(***split == 'A' && k == 3)
-		return (set_ambient(*split, list));
+	if (***split == 'R' && k == 3 && !(capital & R_FLAG))
+		return (set_resolution(*split, list, &capital));
+	else if(***split == 'A' && k == 3 && !(capital & A_FLAG))
+		return (set_ambient(*split, list, &capital));
 	else if(***split == 'c' && k == 4)
 		return (set_camera(*split, list));
 	else if(***split == 'l' && k == 4)
@@ -336,8 +363,7 @@ int check_var(char ***split, t_list **list)
 		return (set_cylinder(*split, list));
 	else if(***split == 't' && k == 5)
 		return (set_triangle(*split, list));
-	else
-		return (ERROR);
+	return (ERROR);
 }
 
 int main()
