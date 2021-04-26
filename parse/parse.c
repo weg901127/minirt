@@ -88,7 +88,8 @@ int parse(int argc, char **argv, t_list **list)
 		}
 		free(line);
 		close(fd);
-		free_node(list); //밖에서..
+		free_node(list); //TODO 밖에서 해제하기...
+		//TODO main.c랑 연결하기
 	}
 	else
 		return (write(1, "Error\n", 6));

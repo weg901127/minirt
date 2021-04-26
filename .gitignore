@@ -1,10 +1,9 @@
 .vscode
 a.out
 a.out.*
-data.*
-main.*
 aa.*
 data
 main
 aa
 .clang
+*.dSYM
