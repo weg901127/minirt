@@ -25,6 +25,8 @@ int		create_trgb(int t, int r, int g, int b)
 }
 int             main(int argc, char *argv[])
 {
+  t_list *list;
+  int res;
   int img_width = 1920;
   int img_height = 1680;
   int centerX, centerY;
@@ -39,6 +41,38 @@ int             main(int argc, char *argv[])
     vars.win = mlx_new_window(vars.mlx, img_width, img_height, "Hello world!");
     img.img = mlx_new_image(vars.mlx, img_width, img_height);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
+    res = parse(argc, argv, &list);
+    if (!res)
+  	{
+    list->cur = list->head;
+	while (list->cur)
+	{
+		printf("id : %s",list->cur->data.id);
+		if (list->cur->data.resolution.width + list->cur->data.resolution.height)
+			printf("\nresolution.width : %d, %d",list->cur->data.resolution.width,list->cur->data.resolution.height);
+		if (list->cur->data.coor1.x + list->cur->data.coor1.y + list->cur->data.coor1.z)
+			printf("\ncoor1.xyz : %f, %f, %f",list->cur->data.coor1.x,list->cur->data.coor1.y,list->cur->data.coor1.z);
+		if (list->cur->data.coor2.x + list->cur->data.coor2.y + list->cur->data.coor2.z)
+			printf("\ncoor2.xyz : %f, %f, %f",list->cur->data.coor2.x,list->cur->data.coor2.y,list->cur->data.coor2.z);
+		if (list->cur->data.coor3.x + list->cur->data.coor3.y + list->cur->data.coor3.z)
+			printf("\ncoor3.xyz : %f, %f, %f",list->cur->data.coor3.x,list->cur->data.coor3.y,list->cur->data.coor3.z);
+		if (list->cur->data.normalized_vector.x + list->cur->data.normalized_vector.y + list->cur->data.normalized_vector.z)
+			printf("\nvec.xyz : %f, %f, %f",list->cur->data.normalized_vector.x,list->cur->data.normalized_vector.y,list->cur->data.normalized_vector.z);
+		if (list->cur->data.color.red + list->cur->data.color.green + list->cur->data.color.blue)
+			printf("\ncolor.rgb : %f, %f, %f",list->cur->data.color.red,list->cur->data.color.green,list->cur->data.color.blue);
+		if (list->cur->data.view_degree)
+			printf("\nview_degree : %d",list->cur->data.view_degree);
+		if (list->cur->data.brightness)
+			printf("\nbrightness : %f",list->cur->data.brightness);
+		if (list->cur->data.diameter)
+			printf("\ndiameter : %f",list->cur->data.diameter);
+		if (list->cur->data.side_size)
+			printf("\nside_size : %f",list->cur->data.side_size);
+		printf("\n--------------------------\n");
+		list->cur = list->cur->next;
+	}
+    free_node(&list);
+  }
 /*
   for(int x = 0 ; x <= rad ; x++)
   {
