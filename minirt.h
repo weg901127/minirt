@@ -90,6 +90,7 @@ void  free_node(t_list **list);
 void  free_split(char ***split);
 int   count_split(char **split);
 int   count_char(char **split, char c);
+int check_split(char ***split);
 
 /* set_coordinate.c */
 int   set_coor1(char ***split, t_rt_info *data, int seq);

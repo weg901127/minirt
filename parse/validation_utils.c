@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:08:36 by gilee             #+#    #+#             */
-/*   Updated: 2021/04/27 02:15:06 by gilee            ###   ########.fr       */
+/*   Updated: 2021/04/27 23:41:32 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,28 @@ int		count_char(char **split, char c)
 			k++;
 	}
 	return (k);
+}
+
+int check_split(char ***split)
+{
+	char **tmp;
+	int		k;
+	tmp = *split;
+	k = 0;
+	tmp++;
+	while (*tmp)
+	{
+		while ((*tmp)[k])
+		{
+			if (((*tmp)[k] > '/' && (*tmp)[k] < ':') || (*tmp)[k] == '.' || (*tmp)[k] == ',' || ((*tmp)[k] == '-' && k == 0))
+			{
+				k++;
+				continue;
+			}
+			return (ERROR);
+		}
+		k = 0;
+		tmp++;
+	}
+	return (DONE);
 }

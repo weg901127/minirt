@@ -1,27 +1,5 @@
 #include "../minirt.h"
-int check_split(char ***split)
-{
-	char **tmp;
-	int		k;
-	tmp = *split;
-	k = 0;
-	tmp++;
-	while (*tmp)
-	{
-		while ((*tmp)[k])
-		{
-			if (((*tmp)[k] > '/' && (*tmp)[k] < ':') || (*tmp)[k] == '.' || (*tmp)[k] == ',' || ((*tmp)[k] == '-' && k == 0))
-			{
-				k++;
-				continue;
-			}
-			return (ERROR);
-		}
-		k = 0;
-		tmp++;
-	}
-	return (DONE);
-}
+
 int parse(int argc, char **argv, t_list **list)
 {
 	int			fd;
