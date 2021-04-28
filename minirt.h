@@ -3,6 +3,7 @@
 # include <string.h>  //test
 # include <stdio.h>   //test
 # include <fcntl.h>
+# include <math.h>
 # include <stdlib.h>
 # include "gnl/get_next_line.h"
 
@@ -54,9 +55,14 @@ typedef struct  s_list
   t_node  *tail;
 }               t_list;
 
+//check.c
+int check_int(char *s);
+int check_double(char *s);
+int check_id(t_list *list);
 
 //add ft_atof
 int	ft_atoi(const char *str);
+double ft_atod(char *s);
 
 //utils
 int	ft_strcmp(const char *s1, const char *s2);
@@ -82,6 +88,7 @@ void  init_list(t_list **list);
 void  add_node(t_list *list, t_rt_info data);
 void search_node(t_list *list, char *s);
 void del_node(t_list **list);
+int count_node(t_list *list, char *s);
 
 //split
 static int	cnt_word(char const *s, char c);

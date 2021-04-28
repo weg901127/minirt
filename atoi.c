@@ -1,3 +1,5 @@
+#include "minirt.h"
+
 int	ft_atoi(const char *str)
 {
 	int	i;
@@ -21,4 +23,42 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (rst * pmsign);
+}
+
+double ft_pow(double a, double b)
+{
+	double rst;
+	int i;
+
+	rst = 1;
+	i = 0;
+	while (i < (int)b)
+	{
+		rst *= a;
+		i++;
+	}
+	return (rst);
+}
+
+double ft_atod(char *s)
+{
+    double rst = 0;
+    int i = 0;
+    while(s[i] != '\0' && s[i] != '.')
+    {
+        rst = rst * 10 + (s[i] - '0');
+        i++;
+    }
+    if (s[i] == '.')
+    {
+        i++;
+        int j = 1;
+        while (s[i] != '\0')
+        {
+            rst = rst + ((double)(s[i] - '0') / ft_pow(10, j));
+            i++;
+            j++;
+        }
+    }
+    return (rst);
 }

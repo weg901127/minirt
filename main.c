@@ -6,8 +6,6 @@ static void put_err()
 	//free split, line
 }
 
-//check_int, check_float 등 만들기
-
 int split_put_data(char **split, t_rt_info data, t_list *list)
 {
 	int cnt;
@@ -35,17 +33,14 @@ int split_put_data(char **split, t_rt_info data, t_list *list)
 	return (-1);
 }
 
-int main(/*int argc, char *argv[]*/void) {
+int set_list(t_list *list /*, char *argv*/)
+{
+	int fd;
 	char *line;
 	char **split;
-	t_list *list;
 	t_rt_info data;
 
-	init_list(&list);
-
-	//if (argc == 2 && strcmp(argv[1] + strlen(argv[1]) - 3,".rt") == 0)
-	//{
-		int fd = open(/*argv[1]*/ "mini.rt", O_RDWR);
+	fd = open(/*argv[1]*/ "mini.rt", O_RDWR);
 		while (get_next_line(fd, &line) > 0)
 		{
 			if (*line != '\0')
@@ -54,18 +49,35 @@ int main(/*int argc, char *argv[]*/void) {
 				if (split_put_data(split, data, list) < 0)
 				{
 					put_err();
-					break;
+					return(-1);
 				}
 				printf("%s\n",list->tail->data.id);
 				split = allo_free(split);
 			}
 			free(line);
 		}
-		del_node(&list);
-		close(fd);
-	//}
+		if (check_id(list) == -1)
+		{
+			put_err();
+			return (-1);
+		}
+	close(fd);
+	return (0);
+}
+
+int main(/*int argc, char *argv[]*/void) {
+	t_list *list;
+
+	init_list(&list);
+
+	//if (argc == 2 && strcmp(argv[1] + strlen(argv[1]) - 3,".rt") == 0)
+		set_list(list);
 	//else
 	//	put_err();
+	
+	//list 사용 다 끝난 후
+	del_node(&list);
+
 	system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked | rm -rf leaks_result_temp");
 	return (0);
 }

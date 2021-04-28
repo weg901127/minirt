@@ -40,6 +40,21 @@ void search_node(t_list *list, char *s)
   }
 }
 
+int count_node(t_list *list, char *s)
+{
+  int i;
+  
+  i = 0;
+  list->cur = list->head;
+  while (list->cur != 0)
+  {
+    if(ft_strcmp(list->cur->data.id, s) == 0)
+      i++;
+    list->cur = list->cur->next;
+  }
+  return (i);
+}
+
 void del_node(t_list **list)
 {
 	t_node *tmp;
