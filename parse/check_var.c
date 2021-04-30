@@ -6,11 +6,11 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 01:31:56 by gilee             #+#    #+#             */
-/*   Updated: 2021/04/27 01:32:40 by gilee            ###   ########.fr       */
+/*   Updated: 2021/04/29 16:58:24 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "parse.h"
 
 int check_var(char ***split, t_list **list)
 {

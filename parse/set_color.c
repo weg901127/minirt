@@ -6,11 +6,11 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:21:32 by gilee             #+#    #+#             */
-/*   Updated: 2021/04/27 02:17:51 by gilee            ###   ########.fr       */
+/*   Updated: 2021/04/29 16:58:24 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../parse.h"
 
 int set_color(char ***split, t_rt_info *data, int seq)
 {

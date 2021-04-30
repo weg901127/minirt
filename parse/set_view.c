@@ -6,11 +6,11 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 01:25:41 by gilee             #+#    #+#             */
-/*   Updated: 2021/04/27 02:18:31 by gilee            ###   ########.fr       */
+/*   Updated: 2021/04/29 16:58:24 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../parse.h"
 
 int	set_resolution(char **split, t_list **list, int *capital)
 {

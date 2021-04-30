@@ -6,11 +6,11 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 02:21:56 by gilee             #+#    #+#             */
-/*   Updated: 2021/04/27 02:21:58 by gilee            ###   ########.fr       */
+/*   Updated: 2021/04/29 16:58:24 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../parse.h"
 
 void	*ft_memset(void *b, int c, size_t len)
 {

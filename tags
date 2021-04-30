@@ -20,9 +20,9 @@ rd_end	gnl/get_next_line.c	/^int	rd_end(int read_len, char **line, char **bkup)/
 search_node	data.c	/^void search_node(t_list *list, char *s)$/
 set_R	main.c	/^static void set_R(char **split, t_list **list, t_r/
 split_line	gnl/get_next_line.c	/^int	split_line(char **line, char **bkup, char *bku/
-t_color	minirt.h	/^}               t_color;$/
-t_list	minirt.h	/^}               t_list;$/
-t_node	minirt.h	/^}               t_node;$/
-t_resolution	minirt.h	/^}               t_resolution;$/
-t_rt_info	minirt.h	/^}               t_rt_info;$/
-t_xyz	minirt.h	/^}               t_xyz;$/
+t_color	parse.h	/^}               t_color;$/
+t_list	parse.h	/^}               t_list;$/
+t_node	parse.h	/^}               t_node;$/
+t_resolution	parse.h	/^}               t_resolution;$/
+t_rt_info	parse.h	/^}               t_rt_info;$/
+t_xyz	parse.h	/^}               t_xyz;$/

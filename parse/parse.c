@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../parse.h"
 
 int parse(int argc, char **argv, t_list **list)
 {

@@ -6,11 +6,11 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 01:30:07 by gilee             #+#    #+#             */
-/*   Updated: 2021/04/27 02:17:23 by gilee            ###   ########.fr       */
+/*   Updated: 2021/04/29 16:58:24 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../parse.h"
 
 int	put_err(char **line, int fd, t_list **list, char ***split)
 {
